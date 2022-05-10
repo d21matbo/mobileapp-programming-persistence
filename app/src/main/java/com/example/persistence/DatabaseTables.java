@@ -13,7 +13,7 @@ public class DatabaseTables {
             "CREATE TABLE " + Car.TABLE_NAME + " (" +
                     Car.COLUMN_LICNO + " TEXT PRIMARY KEY, " +
                     Car.COLUMN_BRAND + " TEXT, " +
-                    Car.COLUMN_MODEL + "TEXT)";
+                    Car.COLUMN_MODEL + " TEXT);";
 
     static final String SQL_DELETE_TABLE_CAR =
             "DROP TABLE IF EXISTS " + Car.TABLE_NAME;
