@@ -1,42 +1,52 @@
 
 # Rapport
 
-**Skriv din rapport här!**
+- [x] In your layout file add at least the following widgets: a `TextView`, two `Button` views, and at least three `EditText` views.
+Minimum required Views/Widgets added to activity_main.xml.
 
-_Du kan ta bort all text som finns sedan tidigare_.
+- [x] Name the buttons 'Read' and 'Write'
+Both buttons name changed to Read and Write.
 
-## Följande grundsyn gäller dugga-svar:
-
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
-
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
-
-```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
-    }
+- [x] When the user taps (clicks) the 'Write' button the values in the EditText views should be written as a single row to a SQLite database table
+The following code is executed when the button named 'Write' is pressed;
+```java
+private void insertSQLData() {
+    ContentValues values = new ContentValues();
+    values.put(DatabaseTables.Car.COLUMN_LICNO, inputLicNo.getText().toString());
+    values.put(DatabaseTables.Car.COLUMN_BRAND, inputBrand.getText().toString());
+    values.put(DatabaseTables.Car.COLUMN_MODEL, inputModel.getText().toString());
+    databaseHelper.getWritableDatabase().insert(DatabaseTables.Car.TABLE_NAME, null, values);
 }
 ```
+This method works by taking the current text in each of the editText views and pairing them with the respective column from the SQLite table.
+All key values are then inserted into the table. The class `DatabaseTables.Car` holds constants for the table name and columns.
 
-Bilder läggs i samma mapp som markdown-filen.
+![](Screenshot_write.png)
 
-![](android.png)
+- [x] When the user taps the 'Read' button, all rows should be read from the database and displayed in the TextView.
+The following code is executed when the button named 'Read' is pressed;
+```java
+private void readSQLData() {
+        Cursor cursor = databaseHelper.getReadableDatabase().rawQuery(
+                "SELECT * FROM " + DatabaseTables.Car.TABLE_NAME,
+                null,
+                null);
+        String displayText = "";
+        while(cursor.moveToNext()) {
+            displayText = displayText + String.format("%s : %s %s\n",
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Car.COLUMN_LICNO)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Car.COLUMN_BRAND)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Car.COLUMN_MODEL)));
+        }
+        displayView.setText(displayText);
+    }
+```
+This method works by creating a query against the database to retrieve all entries.
+It then loops through all entries and stitch together a String by appending the newest iteration table data to the end,
+using the format `String.format("%s : %s %s\n",...)` where %s represents the String value from the database in order, and \n breaks the line.
+Lastly the displayView gets its content set to the stitched String.
 
-Läs gärna:
+![](Screenshot_read.png)
 
-- Boulos, M.N.K., Warren, J., Gong, J. & Yue, P. (2010) Web GIS in practice VIII: HTML5 and the canvas element for interactive online mapping. International journal of health geographics 9, 14. Shin, Y. &
-- Wunsche, B.C. (2013) A smartphone-based golf simulation exercise game for supporting arthritis patients. 2013 28th International Conference of Image and Vision Computing New Zealand (IVCNZ), IEEE, pp. 459–464.
-- Wohlin, C., Runeson, P., Höst, M., Ohlsson, M.C., Regnell, B., Wesslén, A. (2012) Experimentation in Software Engineering, Berlin, Heidelberg: Springer Berlin Heidelberg.
+- [x] The items written to the database and shown in the TextView cannot be Mountains
+The values stored in this database are related to Cars, a License number, a brand and a model. See screenshots
