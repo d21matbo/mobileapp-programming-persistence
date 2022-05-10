@@ -38,26 +38,26 @@
         android:layout_marginRight="50dp" />
 
     <EditText
-        android:id="@+id/input_1"
+        android:id="@+id/input_licno"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test"
+        android:text="License number"
         app:layout_constraintTop_toBottomOf="@id/button_write"
         android:layout_margin="5dp"/>
 
     <EditText
-        android:id="@+id/input_2"
+        android:id="@+id/input_brand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test 2"
-        app:layout_constraintTop_toBottomOf="@id/input_1"
+        android:text="Brand name"
+        app:layout_constraintTop_toBottomOf="@id/input_licno"
         android:layout_margin="5dp"/>
 
     <EditText
-        android:id="@+id/input_3"
+        android:id="@+id/input_model"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test 3"
-        app:layout_constraintTop_toBottomOf="@+id/input_2"
+        android:text="Car model"
+        app:layout_constraintTop_toBottomOf="@+id/input_brand"
         android:layout_margin="5dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
